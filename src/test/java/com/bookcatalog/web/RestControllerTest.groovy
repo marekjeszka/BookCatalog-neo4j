@@ -35,14 +35,16 @@ class RestControllerTest extends Specification {
         restController.setBookRepository(bookRepository)
     }
 
-    def 'test'() {
-        setup:
+    def 'testGettingBooks'() {
+        given: 'Repository that returns any two books'
         bookRepository.findAll() >> Arrays.asList(new Book(), new Book())
 
-        expect:
-        mockMvc.perform(get('/api/books'))
-                .andExpect(status().isOk())
+        when: 'REST API is accessed'
+        def response = mockMvc.perform(get('/api/books'))
+
+        then: 'Books are returned in JSON'
+        response.andExpect(status().isOk())
                 .andExpect(jsonPath('$[*].@id').exists())
-                .andExpect(jsonPath('$', hasSize(2)));
+                .andExpect(jsonPath('$', hasSize(2)))
     }
 }
