@@ -18,4 +18,8 @@ public class RestController {
     public Iterable<Book> getAllBooks() {
         return bookRepository.findAll();
     }
+
+    public void setBookRepository(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
 }
